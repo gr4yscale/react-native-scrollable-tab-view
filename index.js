@@ -82,6 +82,14 @@ var ScrollableTabView = React.createClass({
     }
   },
 
+  renderProgressView() {
+    if (this.props.renderProgressView === false) {
+      return null;
+    } else if (this.props.renderProgressView && this.props.showProgressView) {
+      return this.props.renderProgressView();
+    }
+  },
+
   renderScrollableContent() {
     if (Platform.OS === 'ios') {
       return (
@@ -179,7 +187,7 @@ var ScrollableTabView = React.createClass({
       scrollValue: this.state.scrollValue,
       containerWidth: this.state.container.width,
     };
-    
+
     if (this.props.tabBarUnderlineColor) {
       tabBarProps.underlineColor = this.props.tabBarUnderlineColor;
     }
@@ -192,12 +200,13 @@ var ScrollableTabView = React.createClass({
     if (this.props.tabBarInactiveTextColor) {
       tabBarProps.inactiveTextColor = this.props.tabBarInactiveTextColor;
     }
-    
+
     return (
       <View style={[styles.container, this.props.style]} onLayout={this._handleLayout}>
         {this.props.tabBarPosition === 'top' ? this.renderTabBar(tabBarProps) : null}
         {this.renderScrollableContent()}
         {this.props.tabBarPosition === 'bottom' ? this.renderTabBar(tabBarProps) : null}
+        {this.renderProgressView()}
       </View>
     );
   }
